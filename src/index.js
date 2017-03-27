@@ -40,7 +40,7 @@
     type.map = options.map
     type.join = options.join
 
-    type.bind = function bind (ma, f) {
+    type.chain = function chain (ma, f) {
       return type.join(type.map(f, ma))
     }
 
@@ -56,8 +56,8 @@
       return type.join(this)
     }
 
-    type.prototype.bind = function bind (f) {
-      return type.bind(this, f)
+    type.prototype.chain = function chain (f) {
+      return type.chain(this, f)
     }
 
     return type
