@@ -1,6 +1,6 @@
 {
   "name": "fun-monad",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lift a type to a monadic type",
   "main": "src/index.js",
   "scripts": {
