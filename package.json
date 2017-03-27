@@ -1,0 +1,47 @@
+{
+  "name": "fun-monad",
+  "version": "0.1.0",
+  "description": "Lift a type to a monadic type",
+  "main": "src/index.js",
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "tap -Rtap --coverage-report=text-summary ./test/index.js",
+    "coverage": "tap --coverage-report=lcov ./test/index.js",
+    "predependencies": "mkdir -p img",
+    "dependencies": "madge . --image img/dependencies.svg -x 'test|coverage|docs' --include-npm",
+    "postdependencies": "npm run dependencies-test",
+    "dependencies-test": "madge . --image img/dependencies-test.svg -x 'coverage|docs' --include-npm",
+    "pages-index": "showdown makehtml -i README.md -o public/index.html",
+    "pages": "./script/pages.sh",
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "predocument": "rm -rf docs",
+    "document": "jsdoc -c .jsdoc.json",
+    "readme": "cat readme/* > README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/bagrounds/fun-monad.git"
+  },
+  "keywords": [
+    "fun",
+    "monad"
+  ],
+  "author": "bagrounds@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/bagrounds/fun-monad/issues"
+  },
+  "homepage": "https://gitlab.com/bagrounds/fun-monad#README",
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "jsdoc": "^3.4.3",
+    "madge": "^1.6.0",
+    "showdown": "^1.5.4",
+    "tap": "^10.3.0"
+  },
+  "dependencies": {
+    "fun-assert": "^0.12.0",
+    "fun-compose": "^0.3.0",
+    "guarded": "^0.5.0"
+  }
+}
