@@ -7,8 +7,10 @@
 
   /* imports */
   var compose = require('fun-compose')
+  var curry = require('fun-curry')
   var funAssert = require('fun-assert')
   var guarded = require('guarded')
+  var flip = require('fun-flip')
 
   var TYPE = '{of: Function, type: Function, map: Function, join: Function}'
   var isValidOptions = funAssert.type(TYPE)
@@ -45,7 +47,7 @@
     }
 
     type.fish = function fish (f, g) {
-      return [g, type.join, f].reduce(compose)
+      return compose(curry(flip(type.chain))(g), f)
     }
 
     type.prototype.map = function map (f) {
