@@ -12,15 +12,14 @@
   var guarded = require('guarded')
   var flip = require('fun-flip')
 
-  var TYPE = '{of: Function, type: Function, map: Function, join: Function}'
+  var TYPE = '{of:Function,type:Function,map:Function,join:Function,...}'
   var isValidOptions = funAssert.type(TYPE)
-  var isFunction = funAssert.type('Function')
 
   /* exports */
   module.exports = guarded({
     inputs: [isValidOptions],
     f: funMonad,
-    output: isFunction
+    output: isValidOptions
   })
 
   /**
@@ -28,7 +27,7 @@
    * @function module:fun-monad.funMonad
    *
    * @param {Object} options - all input parameters
-   * @param {Function} options.type - constructor for the type to lift
+   * @param {Function} options.type - contract
    * @param {Function} options.of - a -> m a
    * @param {Function} options.map - (a -> b, m a) -> m b
    * @param {Function} options.join - m m a -> m a
@@ -37,32 +36,26 @@
    */
   function funMonad (options) {
     var type = options.type
+    var of = options.of
+    var map = options.map
+    var join = options.join
 
-    type.of = options.of
-    type.map = options.map
-    type.join = options.join
-
-    type.chain = function chain (ma, f) {
-      return type.join(type.map(f, ma))
+    function chain (ma, f) {
+      return compose(join, map)(f, ma)
     }
 
-    type.fish = function fish (f, g) {
-      return compose(curry(flip(type.chain))(g), f)
+    function fish (f, g) {
+      return compose(curry(flip(chain))(g), f)
     }
 
-    type.prototype.map = function map (f) {
-      return type.map(f, this)
+    return {
+      type: type,
+      of: of,
+      map: map,
+      join: join,
+      chain: chain,
+      fish: fish
     }
-
-    type.prototype.join = function join () {
-      return type.join(this)
-    }
-
-    type.prototype.chain = function chain (f) {
-      return type.chain(this, f)
-    }
-
-    return type
   }
 })()
 
